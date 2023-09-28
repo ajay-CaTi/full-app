@@ -24,7 +24,15 @@ class ApiFeatures {
     const removeFields = ["keyword", "page", "limit"];
     removeFields.forEach((key) => delete queryCopy[key]);
     // console.log(queryCopy);
-    this.query = this.query.find(queryCopy);
+
+    console.log(queryCopy);
+
+    // filter for price and rating
+    let queryStr = JSON.stringify(queryCopy);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
+
+    this.query = this.query.find(JSON.parse(queryStr));
+    console.log(queryStr);
     return this;
   }
 }
